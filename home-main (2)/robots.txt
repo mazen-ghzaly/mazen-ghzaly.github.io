@@ -1,4 +1,0 @@
-
-User-agent: *
-Allow: /
-Sitemap: https://mazen-ghzaly.github.io/home/sitemap.xml

@@ -1,1 +1,0 @@
-q-pg       هو اختصار  quran-pages
