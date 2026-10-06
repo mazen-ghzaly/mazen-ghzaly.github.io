@@ -1,16 +1,19 @@
- function openReciter(reciter) {
-            // يمكنك ربط كل شيخ بصفحة أو مشغل صوت خاص به
+function openReciter(reciter) {
+            // استخدام baseUrl من site-config.js
+            const base = (window.SITE_CONFIG && window.SITE_CONFIG.baseUrl) || 'https://mazen-ghzaly.github.io/';
+            const basePath = base + 'home/p/';
+            
             if(reciter === 'minshawi') {
-                window.location.href = 'minshawi.html';
+                window.location.href = basePath + 'minshawi.html';
             } else if(reciter === 'basit') {
-                window.location.href = 'basit.html';
+                window.location.href = basePath + 'basit.html';
             } else if(reciter === 'hosary') {
-                window.location.href = 'hosary.html';
+                window.location.href = basePath + 'hosary.html';
             } else if(reciter === 'ismail') {
-                window.location.href = 'ismail.html';
+                window.location.href = basePath + 'ismail.html';
             }
         }
-        // إظهار رسالة الصلاة على النبي عند الدخول
+         // إظهار رسالة الصلاة على النبي عند الدخول
         function closeSalatModal() {
             document.getElementById('salatModal').style.display = 'none';
         }

@@ -82,17 +82,17 @@
 
 <div class="links">
 
-    <a class="card" href="https://mazen-ghzaly.github.io/home/" target="_blank">
+    <a class="card" href="" data-base-path="home/" target="_blank">
         <h3>🏠 الصفحة الرئيسية</h3>
         <p>هنا هتلاقي مقدمة عن الموقع، المعلومات الأساسية، وأحدث التحديثات اللي بتنزل.</p>
     </a>
 
-    <a class="card" href="https://mazen-ghzaly.github.io/home/p/quran.html" target="_blank">
+    <a class="card" href="" data-base-path="home/p/quran.html" target="_blank">
         <h3>📖 صفحة القرآن الكريم</h3>
         <p>بتعرض سور القرآن بشكل بسيط ومريح مع إمكانية الانتقال سريعًا لأي سورة.</p>
     </a>
 
-    <a class="card" href="https://mazen-ghzaly.github.io/home/p/profile.html" target="_blank">
+    <a class="card" href="" data-base-path="home/p/profile.html" target="_blank">
         <h3>👤 بروفايل المستخدم</h3>
         <p>صفحة فيها معلوماتك، بيانات الحساب، واللينكات المرتبطة بيك داخل الموقع.</p>
     </a>
@@ -101,10 +101,10 @@
 <script src="js/site-config.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const base = (window.SITE_CONFIG && window.SITE_CONFIG.baseUrl) || 'https://mazen-ghzaly.github.io/home';
+    const base = (window.SITE_CONFIG && window.SITE_CONFIG.baseUrl) || 'https://mazen-ghzaly.github.io/';
     document.querySelectorAll('[data-base-path]').forEach((link) => {
       const path = String(link.dataset.basePath || '').replace(/^\/+/, '');
-      link.href = path ? `${base}/${path}` : base;
+      link.href = path ? `${base}${path}` : base;
     });
   });
 </script>
