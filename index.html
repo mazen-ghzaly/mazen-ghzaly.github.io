@@ -47,7 +47,7 @@
         }
     }
     </script>
-    <script src="js/site-config.js"></script>
+    
 
     <!-- سرعة التحميل – ضروري للموبايل -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -167,16 +167,7 @@
             <p class="copyright">جميع الحقوق محفوظة &copy; 2023 Mazen Ghazly</p>
         </div>
     </footer>
-<script src="js/index.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const base = (window.SITE_CONFIG && window.SITE_CONFIG.baseUrl) || 'https://mazen-ghzaly.github.io/';
-    document.querySelectorAll('[data-base-path]').forEach((link) => {
-      const path = String(link.dataset.basePath || '').replace(/^\/+/, '');
-      link.href = path ? `${base}${path}` : base;
-    });
-  });
-</script>
+
     
 </body>
 </html>
