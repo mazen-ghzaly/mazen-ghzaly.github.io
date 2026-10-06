@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+
+    <meta name="description" content="استمع لتلاوات القرآن الكريم بصوت كبار القراء مباشرة بدون تسجيل." />
+    <meta name="keywords" content="القرآن الكريم, تلاوات, استماع القرآن, قراء, المنشاوي, الحصري, عبد الباسط, تلاوة, قرآن اونلاين" />
+    <meta name="author" content="Mazen Ghazly" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="القرآن الكريم - استمع لتلاوات أشهر القراء" />
+    <meta property="og:description" content="استمع لتلاوات القرآن الكريم بصوت كبار القراء مباشرة بدون تسجيل. جميع الشيوخ هنا في منصة واحدة." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mazen-ghzaly.github.io/quran" />
+    <meta property="og:image" content="./images/logo.jpg?v=3" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" href="./images/logo.jpg?v=3" />
+    <link rel="sitemap" type="application/xml" href="https://mazen-ghzaly.github.io/sitemap.xml" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "القرآن الكريم - Mazen Ghazly",
+        "url": "https://mazen-ghzaly.github.io/quran",
+        "description": "استمع لتلاوات القرآن الكريم بصوت كبار القراء مباشرة بدون تسجيل.",
+        "inLanguage": "ar",
+        "isFamilyFriendly": true
+    }
+    </script>
+
+    <meta name="theme-color" content="#0c164f" />
+    <title>القرآن الكريم - منصة Mazen Ghazly</title>
+
+    <link rel="stylesheet" href="./css/quran.css" />
+  </head>
+
+  <body>
+    <div id="salatModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeSalatModal()" title="إغلاق">×</button>
+            <div class="modal-emoji">🕋</div>
+            <div class="modal-title">صَلِّ على محمد ﷺ</div>
+            <div style="color:#273c75;margin-top:8px;">اللهم صل وسلم وبارك على سيدنا محمد</div>
+        </div>
+    </div>
+    <div class="planet-bg">
+        <span class="planet-core">📖</span>
+        <header>
+            <h1>منصة تلاوة القرآن الكريم</h1>
+            <p>استمع لتلاوات أشهر القراء بدون تسجيل دخول</p>
+        </header>
+        <a href="https://mazen-ghzaly.github.io/profile" class="creator-btn">👨‍🚀 المنشئ</a>
+    </div>
+    <nav>
+        <a href="#reciters">الشيوخ</a>
+        <a href="#about">عن الصفحة</a>
+        <a href="#contact">تواصل</a>
+    </nav>
+    <div class="container" id="reciters">
+        <h2 style="text-align:center;">اختر القارئ للاستماع</h2>
+        <h2>الشيوخ</h2>
+
+        <div style="text-align:center;margin:12px 0;">
+          <input id="reciterSearch" type="text" placeholder="اكتب اسم الشيخ للبحث..."
+                 style="width:90%; max-width:520px; padding:10px 14px; font-size:1rem; border-radius:8px; border:1px solid #ddd;" />
+          <div id="searchHint" style="color:#666;font-size:0.92rem;margin-top:6px;">
+            اكتب جزء من الاسم أو خطأ إملائي بسيط وسأعرض النتائج.
+          </div>
+        </div>
+
+        <div class="reciters-list">
+            <div class="reciter">
+                <span class="reciter-name">الشيخ محمد صديق المنشاوي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/alminshawi.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ عبد الباسط عبد الصمد</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/eabd-albasit.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ محمود خليل الحصري</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/mahmoud-khalil.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ مصطفى إسماعيل</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/mustafaa.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ محمد محمود الطبلواى</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/altabluaa.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ ياسر الدوسري</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/Yasser-al-Dosari.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ مشاري راشد العفاسي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/mishary-rashid-alafasy.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ هاني الرفاعي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/Hani-%20Al-Rifai.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ أحمد العجمي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/Ahmed-Al-Ajam.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ ياسين الجزائري</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/yaseen-al-jazairy.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ أحمد نعينع</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/ahmed-nuaina.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ أحمد خليل شاهين</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/ahmed-khalel-shaheen.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ ماهر المعقلي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/maher-al-muaiqly.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ عبد الرحمن السديس</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/abdelrahman-sudais.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ أبو بكر الشاطري</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/abu-bakr-shatri.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ منصور السالمي</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/mansour-al-salmi.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ حسن صالح</span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/hassan-saleh.html')">دخول</button>
+            </div>
+            <div class="reciter">
+                <span class="reciter-name">الشيخ على جابر </span>
+                <button class="enter-btn" onclick="window.location.href = window.SITE_CONFIG.getUrl('q-pg/a-jpr.html')">دخول</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="about">
+        <h2>عن الصفحة</h2>
+        <p align="center">صفحة لنشر تلاوات القرآن الكريم بصوت كبار القراء، استمع مباشرة بدون أي تسجيل دخول.</p>
+        <p align="center">الصفحة تهدف لتسهيل الوصول لتلاوات القرآن الكريم بأصوات المشايخ المشهورين.</p>
+        <p align="center">يمكنك الاستماع لأي سورة من خلال اختيار القارئ المناسب.</p>
+        <p align="center">الصفحة متوافقة مع جميع الأجهزة وتعمل بشكل سريع وسهل.</p>
+        <p align="center">إذا كان لديك أي اقتراحات أو ملاحظات، لا تتردد في التواصل معنا.</p>
+        <P align="center">جزاكم الله خيراً على دعمكم ومشاركتكم في نشر القرآن الكريم.</P>
+        <p align="center">نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم وأن ينفع به الجميع.</p>
+        <p align="center" style="color:#e84118; font-weight:bold; font-size:1.15em; background: #fffbe6; border-radius: 7px; padding: 7px 0; margin: 10px 0;">
+            لا تنسَ الصلاة على النبي محمد ﷺ في كل وقت وحين.
+        </p>
+    </div>
+
+    <div class="container" id="contact">
+        <h2>تواصل معنا</h2>
+        <p align="center">للاقتراحات أو الإبلاغ عن مشكلة، تواصل عبر <a href="https://wa.me/201272179381" style="color:#0097e6;">واتساب</a></p>
+    </div>
+
+    <footer>
+        منصة تلاوة القرآن 2026 &mdash; M-Ghzaly جميع الحقوق محفوظة بواسطة&copy;
+    </footer>
+
+    <div class="gaza-banner">
+        <span>لا تنسوا غزة </span>
+    </div>
+
+    <script src="./js/site-config.js"></script>
+    <script src="./js/quran.js"></script>
+  </body>
+</html>
