@@ -20,7 +20,7 @@ jobs:
         with:
           # النص القديم الذي تريد البحث عنه
           # ضع هنا كل الروابط القديمة التي تظهر في مشروعك
-          find: "https://mazen-ghzaly.github.io/quran"
+          find: "https://mazen-ghzaly.github.io/home"
           # النص الجديد الذي سيحل مكانه
           replace: "https://mazen-ghzaly.github.io/"
           regex: false # تعطيل التعامل مع النص كـ Regular Expression
