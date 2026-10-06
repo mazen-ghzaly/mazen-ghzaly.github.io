@@ -29,3 +29,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Auto-replace old URLs with new base URL"
+     file_pattern: ':(exclude).github/workflows/*'
