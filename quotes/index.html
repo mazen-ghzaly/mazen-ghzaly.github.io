@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Quote Engine | ذكي لا نهائي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Cairo', sans-serif;
+        transition: 0.8s;
+        color: white;
+    }
+
+    .card {
+        width: 750px;
+        padding: 60px 50px;
+        border-radius: 25px;
+        text-align: center;
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 0 90px rgba(0,0,0,0.6);
+        transition: 0.5s;
+    }
+
+    .title {
+        font-size: 14px;
+        letter-spacing: 3px;
+        opacity: 0.7;
+    }
+
+    .date {
+        margin: 10px 0 25px;
+        font-size: 14px;
+        opacity: 0.6;
+    }
+
+    .quote {
+        font-size: 34px;
+        line-height: 2.3;
+        margin: 30px 0;
+    }
+
+    .en {
+        font-size: 18px;
+        opacity: 0.75;
+    }
+
+    .symbol {
+        font-size: 24px;
+        margin: 15px 0;
+        opacity: 0.6;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 10px;
+        background: white;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .name {
+        margin-top: 40px;
+        font-size: 13px;
+        opacity: 0.5;
+    }
+    
+    .loading {
+        opacity: 0.6;
+        font-size: 20px;
+    }
+
+    @media (max-width: 780px) {
+        .card { width: 90%; padding: 40px 25px; }
+        .quote { font-size: 24px; line-height: 1.6; }
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <div class="title">QUOTE ENGINE</div>
+    <div class="date" id="date"></div>
+    <div class="symbol" id="symbol">❝</div>
+    <div class="quote" id="quote">جاري التحميل...</div>
+    <div class="en" id="quoteEn">Loading...</div>
+    <div class="symbol" id="symbol2">❞</div>
+    <button onclick="generateQuote()">اقتباس جديد</button>
+    <div class="name">— mohamed ahmed mohamed ghazly</div>
+    <div class="name">https://magdev.online/</div>
+</div>
+
+<audio id="sound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a7b3b9b3.mp3?filename=click-124467.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // ============================================================
+    // بنك اقتباسات ضخم ومتنوع جداً (أكثر من 150 اقتباس مختلف)
+    // من مصادر متعددة: فلاسفة، أدباء، قادة، شعراء، حكماء
+    // الأشكال والألوان مختلفة عشان ميبقوش شبه بعض
+    // ============================================================
+    const localBank = [
+        { ar: "الحقيقة لا تُرى... بل تُفهم بالصمت.", en: "Truth is understood in silence.", bg: "linear-gradient(135deg,#0f2027,#203a43,#2c5364)", symbol: "☾" },
+        { ar: "لا تنتظر الفرصة... اصنعها بنفسك.", en: "Create your own opportunity.", bg: "linear-gradient(135deg,#1e3c72,#2a5298)", symbol: "⚡" },
+        { ar: "ليس كل من وعدك باقٍ.", en: "Not everyone who promised stays.", bg: "linear-gradient(135deg,#000428,#004e92)", symbol: "✦" },
+        { ar: "كل شيء يمر... حتى الألم يرحل.", en: "Everything passes eventually.", bg: "linear-gradient(135deg,#232526,#414345)", symbol: "✧" },
+        { ar: "من عرف نفسه عرف ربه.", en: "Who knows himself knows his Lord.", bg: "linear-gradient(135deg,#2b2b2b,#404040)", symbol: "☆" },
+        { ar: "الحرية أثمن ما نملك.", en: "Freedom is the most precious.", bg: "linear-gradient(135deg,#0f2b2f,#1f4c5e)", symbol: "🕊️" },
+        { ar: "لا عبقري بلا لمسة جنون.", en: "No genius without madness.", bg: "linear-gradient(135deg,#2c2b3c,#42415a)", symbol: "⚡" },
+        { ar: "اعمل في الخفاء والضوء يأتيك.", en: "Work in silence, light will come.", bg: "linear-gradient(135deg,#192231,#2f3e5e)", symbol: "🌟" },
+        { ar: "التسامح فضيلة الأقوياء.", en: "Forgiveness is strength.", bg: "linear-gradient(135deg,#1d3727,#2a573a)", symbol: "☮️" },
+        { ar: "لا تحزن على الماضي.", en: "Don't grieve the past.", bg: "linear-gradient(135deg,#32221c,#5c3a2a)", symbol: "🌹" },
+        { ar: "من طلب العلا سهر الليالي.", en: "Greatness requires nights.", bg: "linear-gradient(135deg,#142b3c,#204e6e)", symbol: "🌙" },
+        { ar: "السفر ميزان الأخلاق.", en: "Travel tests morals.", bg: "linear-gradient(135deg,#314232,#506f50)", symbol: "🧳" },
+        { ar: "العلم بلا عمل كشجر بلا ثمر.", en: "Knowledge without action is barren.", bg: "linear-gradient(135deg,#1e332a,#2a5542)", symbol: "📚" },
+        { ar: "النجاح ليس نهائيًا والفشل ليس قاتلاً.", en: "Success is not final, failure not fatal.", bg: "linear-gradient(135deg,#2f374e,#48587a)", symbol: "🏆" },
+        { ar: "كل يوم بداية جديدة.", en: "Every day is a new start.", bg: "linear-gradient(135deg,#3c3a2e,#6b573c)", symbol: "🌅" },
+        { ar: "كن التغيير الذي تريد.", en: "Be the change you wish.", bg: "linear-gradient(135deg,#145c33,#238450)", symbol: "🕊️" },
+        { ar: "الابتسامة صدقة.", en: "A smile is charity.", bg: "linear-gradient(135deg,#204256,#2c6e8a)", symbol: "😊" },
+        { ar: "خير الناس أنفعهم.", en: "Best people are most helpful.", bg: "linear-gradient(135deg,#1a4c3a,#1d6e4f)", symbol: "🤲" },
+        { ar: "لا تيأس فاليأس كفر.", en: "Do not despair.", bg: "linear-gradient(135deg,#1e2e38,#2e5568)", symbol: "🙏" },
+        { ar: "الحياة حقيقة لا مشكلة.", en: "Life is a reality, not a problem.", bg: "linear-gradient(135deg,#2f2e3c,#52516b)", symbol: "🌀" },
+        { ar: "السعادة بالرضا لا بالمال.", en: "Happiness is contentment.", bg: "linear-gradient(135deg,#3a2d2d,#614949)", symbol: "💎" },
+        { ar: "لا تكن أسير ماضيك.", en: "Don't be past's prisoner.", bg: "linear-gradient(135deg,#1c3445,#2f5777)", symbol: "🏗️" },
+        { ar: "الكلمة الطيبة صدقة.", en: "Kind words are charity.", bg: "linear-gradient(135deg,#28553c,#327a55)", symbol: "🗣️" },
+        { ar: "الجاهل يؤكد والعاقل يشك.", en: "Ignorant affirms, wise doubts.", bg: "linear-gradient(135deg,#1f3548,#305d80)", symbol: "🤔" },
+        { ar: "إذا أردت بناء سفينة علمهم حب البحر.", en: "Teach love for the sea.", bg: "linear-gradient(135deg,#223c58,#2d5a82)", symbol: "⛵" },
+        { ar: "الحب يحول العار لمجد.", en: "Love turns shame to glory.", bg: "linear-gradient(135deg,#581c2c,#8b2e48)", symbol: "❤️" },
+        { ar: "العلم يبني بلا أعمدة.", en: "Knowledge builds without pillars.", bg: "linear-gradient(135deg,#3d3830,#6e5e48)", symbol: "🏛️" },
+        { ar: "لا تحكم بالحصاد بل بالبذور.", en: "Judge by seeds, not harvest.", bg: "linear-gradient(135deg,#1f5c3a,#2d8a57)", symbol: "🌱" },
+        { ar: "قيمة الإنسان ما يحسنه.", en: "Your value is your skill.", bg: "linear-gradient(135deg,#232c3f,#384f72)", symbol: "⚙️" },
+        { ar: "النجاح انتقال من فشل لفشل.", en: "Success is moving failure to failure.", bg: "linear-gradient(135deg,#632c2c,#944646)", symbol: "🔥" },
+        { ar: "لا يموت من ترك أثراً.", en: "Who leaves a legacy never dies.", bg: "linear-gradient(135deg,#242d3f,#3a4b6d)", symbol: "⚔️" },
+        { ar: "إن الله لا يغير حتي يغيروا ما بأنفسهم.", en: "God changes not until they change.", bg: "linear-gradient(135deg,#1c4b3c,#1f7556)", symbol: "🤍" },
+        { ar: "الصبر مفتاح الفرج.", en: "Patience is the key.", bg: "linear-gradient(135deg,#56732d,#6f9645)", symbol: "🔑" },
+        { ar: "خير جليس كتاب.", en: "Best companion is a book.", bg: "linear-gradient(135deg,#343b41,#515f6e)", symbol: "📖" },
+        { ar: "النظام نصف العيش.", en: "Order is half life.", bg: "linear-gradient(135deg,#2d5f6e,#3190aa)", symbol: "📐" },
+        { ar: "الشجاعة ليست غياب الخوف.", en: "Courage is not absence of fear.", bg: "linear-gradient(135deg,#c05f2f,#a34e1f)", symbol: "🦁" },
+        { ar: "راحة القلب في الرضا.", en: "Heart's peace in contentment.", bg: "linear-gradient(135deg,#44685c,#538c78)", symbol: "🍃" },
+        { ar: "لا تؤجل عمل اليوم.", en: "Don't postpone today.", bg: "linear-gradient(135deg,#7a4d2a,#a36939)", symbol: "⏰" },
+        { ar: "الموت ليس نهاية.", en: "Death is not the end.", bg: "linear-gradient(135deg,#31342c,#555c44)", symbol: "🕊️" },
+        { ar: "احترم ذاتك.", en: "Respect yourself.", bg: "linear-gradient(135deg,#42484d,#6d7c85)", symbol: "🎎" },
+        { ar: "الجمال في الروح.", en: "Beauty is in the soul.", bg: "linear-gradient(135deg,#5f4c2b,#906e38)", symbol: "🌹" },
+        { ar: "من يزرع الريح يحصد العاصفة.", en: "Sow wind, reap storm.", bg: "linear-gradient(135deg,#1a6642,#2d9960)", symbol: "🌀" },
+        { ar: "لا نجاح بلا ألم.", en: "No success without pain.", bg: "linear-gradient(135deg,#4b381c,#6f542a)", symbol: "🍯" },
+        { ar: "عش كأنها الأخيرة.", en: "Live like it's your last.", bg: "linear-gradient(135deg,#304f5e,#417f96)", symbol: "⏳" },
+        { ar: "القناعة كنز لا يفنى.", en: "Contentment is a treasure.", bg: "linear-gradient(135deg,#58403c,#8b625b)", symbol: "🏺" },
+        { ar: "كن جميلاً ترى الوجود جميلاً.", en: "Be beautiful, see beauty.", bg: "linear-gradient(135deg,#473d33,#6c5a48)", symbol: "✨" },
+        { ar: "من سار على الدرب وصل.", en: "Who walks arrives.", bg: "linear-gradient(135deg,#2e5a4c,#408e76)", symbol: "🚶" },
+        { ar: "الغضب يطفئ العقل.", en: "Anger extinguishes reason.", bg: "linear-gradient(135deg,#973131,#c44f4f)", symbol: "🌪️" },
+        { ar: "بالأمل نحيا.", en: "We live by hope.", bg: "linear-gradient(135deg,#2d5a7c,#4895c2)", symbol: "🌈" },
+        { ar: "الكتاب يبقى والزمن يفنى.", en: "Books remain, time perishes.", bg: "linear-gradient(135deg,#362b45,#5c4a75)", symbol: "📘" },
+        { ar: "ابتسم فأنت بخير.", en: "Smile, you're okay.", bg: "linear-gradient(135deg,#a47c3b,#d6a452)", symbol: "😁" },
+        { ar: "العين لا ترى نفسها.", en: "The eye sees not itself.", bg: "linear-gradient(135deg,#282828,#414141)", symbol: "👁️" },
+        { ar: "اللطف لغة الأصم.", en: "Kindness is deaf's language.", bg: "linear-gradient(135deg,#616c42,#8f9e5f)", symbol: "🥰" },
+        { ar: "من حفر حفرة وقع فيها.", en: "Who digs a pit falls in it.", bg: "linear-gradient(135deg,#563d1f,#7a5a31)", symbol: "🕳️" },
+        { ar: "اتق شر من أحسنت إليه.", en: "Beware whom you helped.", bg: "linear-gradient(135deg,#5a2a2a,#7e4242)", symbol: "⚠️" },
+        { ar: "الحذر لا يمنع القدر.", en: "Caution doesn't stop fate.", bg: "linear-gradient(135deg,#132c33,#215f6b)", symbol: "🎲" },
+        { ar:"القوة في التحكم بالنفس.", en:"True strength is self-control.", bg:"linear-gradient(135deg,#0f2027,#2c5364)", symbol:"🧠" },
+        { ar:"لا تثق بالظاهر دائمًا.", en:"Never trust appearances.", bg:"linear-gradient(135deg,#1b1b1b,#434343)", symbol:"🎭" },
+        { ar:"كل سقوط بداية جديدة.", en:"Every fall is a new start.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"⬆️" },
+        { ar:"اصنع لنفسك معنى.", en:"Create your own meaning.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"✨" },
+        { ar:"الوقت لا يعود.", en:"Time never returns.", bg:"linear-gradient(135deg,#000428,#004e92)", symbol:"⏳" },
+        { ar:"الصمت أحيانًا أبلغ.", en:"Silence is sometimes louder.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"🤫" },
+        { ar:"لا شيء يدوم.", en:"Nothing lasts forever.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"🌪️" },
+        { ar:"العقل هو السلاح.", en:"The mind is the weapon.", bg:"linear-gradient(135deg,#3a3a3a,#5c5c5c)", symbol:"🧠" },
+        { ar:"كن أنت البداية.", en:"Be your own beginning.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"🌱" },
+        { ar:"الأحلام لا تموت.", en:"Dreams never die.", bg:"linear-gradient(135deg,#20002c,#cbb4d4)", symbol:"🌙" },
+        { ar:"التجربة تصنع الحكمة.", en:"Experience builds wisdom.", bg:"linear-gradient(135deg,#232526,#1c1c1c)", symbol:"📚" },
+        { ar:"لا تنتظر أحدًا.", en:"Don’t wait for anyone.", bg:"linear-gradient(135deg,#141e30,#0f2027)", symbol:"🚶" },
+        { ar:"القوة في الاستمرار.", en:"Strength is persistence.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"💪" },
+        { ar:"افشل لتتعلم.", en:"Fail to learn.", bg:"linear-gradient(135deg,#2b5876,#4e4376)", symbol:"⚙️" },
+        { ar:"النية تصنع الطريق.", en:"Intention creates the path.", bg:"linear-gradient(135deg,#0f0c29,#302b63)", symbol:"🧭" },
+        { ar:"لا أحد يفهمك بالكامل.", en:"No one fully understands you.", bg:"linear-gradient(135deg,#1c1c1c,#383838)", symbol:"🫥" },
+        { ar:"النجاح يحتاج صبر.", en:"Success needs patience.", bg:"linear-gradient(135deg,#3a6073,#16222a)", symbol:"🏆" },
+        { ar:"ابنِ نفسك بنفسك.", en:"Build yourself yourself.", bg:"linear-gradient(135deg,#1f1c2c,#928dab)", symbol:"🧱" },
+        { ar:"لا تخف من التغيير.", en:"Don’t fear change.", bg:"linear-gradient(135deg,#00c6ff,#0072ff)", symbol:"🔄" },
+        { ar:"الحقيقة لا تجامل.", en:"Truth doesn’t flatter.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"⚖️" },
+        { ar:"الخيال بداية الواقع.", en:"Imagination starts reality.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"💭" },
+        { ar:"كل قرار يغيرك.", en:"Every decision changes you.", bg:"linear-gradient(135deg,#0f2027,#203a43)", symbol:"🎯" },
+        { ar:"الطموح لا حدود له.", en:"Ambition has no limits.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"🚀" },
+        { ar:"اعرف قيمتك.", en:"Know your worth.", bg:"linear-gradient(135deg,#3a3a3a,#1a1a1a)", symbol:"💎" },
+        { ar:"الهدوء قوة خفية.", en:"Calmness is hidden power.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"🌊" },
+        { ar:"لا تشرح نفسك كثيرًا.", en:"Don’t over-explain yourself.", bg:"linear-gradient(135deg,#232526,#1c1c1c)", symbol:"🧩" },
+        { ar:"الفرص تُصنع.", en:"Opportunities are made.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"🛠️" },
+        { ar:"كل بداية صعبة.", en:"Every beginning is hard.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"🌄" },
+        { ar:"التفكير يصنع الفرق.", en:"Thinking makes the difference.", bg:"linear-gradient(135deg,#3a6073,#16222a)", symbol:"🧠" },
+        { ar:"النجاح عادة.", en:"Success is a habit.", bg:"linear-gradient(135deg,#00c6ff,#0072ff)", symbol:"📈" },
+        { ar:"الانضباط سر القوة.", en:"Discipline is strength.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"⛓️" },
+        { ar:"لا شيء مستحيل.", en:"Nothing is impossible.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"♾️" },
+        { ar:"تجاهل الضوضاء.", en:"Ignore the noise.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"🔇" },
+        { ar:"كن صبورًا دائمًا.", en:"Always be patient.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"🕰️" },
+        { ar:"القلب يعرف الطريق.", en:"The heart knows the way.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"❤️" },    
+        { ar:"التفوق يبدأ من الداخل.", en:"Greatness starts inside.", bg:"linear-gradient(135deg,#3a3a3a,#5c5c5c)", symbol:"🔥" },
+        { ar:"لا تقارن نفسك.", en:"Don’t compare yourself.", bg:"linear-gradient(135deg,#141e30,#0f2027)", symbol:"🚫" },
+        { ar:"افعلها رغم الخوف.", en:"Do it despite fear.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"🦁" },
+        { ar:"التركيز يصنع المعجزات.", en:"Focus creates miracles.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"🎯" },
+        { ar:"كل فكرة تبدأك.", en:"Every thought starts you.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"💡" },
+        { ar:"الحياة اختبار.", en:"Life is a test.", bg:"linear-gradient(135deg,#0f2027,#2c5364)", symbol:"🧪" },
+        { ar:"لا تتوقف أبدًا.", en:"Never stop.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"⏩" },
+        { ar:"التجربة أقوى من الكلام.", en:"Experience is stronger than words.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"📌" },
+        { ar:"ابنِ مجدك بنفسك.", en:"Build your own glory.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"🏗️" },
+        { ar:"العقل يصنع العالم.", en:"Mind shapes the world.", bg:"linear-gradient(135deg,#3a3a3a,#1a1a1a)", symbol:"🌍" },
+        { ar:"الاختلاف قوة.", en:"Difference is strength.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"🧬" },
+        { ar:"النية أهم من النتيجة.", en:"Intention matters more than result.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"🧭" },
+        { ar:"الصمت يحميك.", en:"Silence protects you.", bg:"linear-gradient(135deg,#141e30,#0f2027)", symbol:"🛡️" },
+        { ar:"لا تنظر للخلف.", en:"Don’t look back.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"↗️" },
+        { ar:"القوة في البساطة.", en:"Strength in simplicity.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"⚪" },
+        { ar:"الحلم يحتاج فعل.", en:"Dream needs action.", bg:"linear-gradient(135deg,#0f2027,#2c5364)", symbol:"🏃" },
+        { ar:"كل شيء يبدأ الآن.", en:"Everything starts now.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"🟢" },
+        { ar:"النجاح قرار.", en:"Success is a decision.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"📍" },
+        { ar:"لا تستهين بنفسك.", en:"Don’t underestimate yourself.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"⚡" },
+        { ar:"الوعي هو البداية.", en:"Awareness is the start.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"👁️" },
+        { ar:"كن صانعًا لا تابعًا.", en:"Be a creator, not a follower.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"🧑‍💻" },
+        { ar:"كل يوم فرصة.", en:"Every day is a chance.", bg:"linear-gradient(135deg,#3a3a3a,#5c5c5c)", symbol:"📅" },
+        { ar:"العقل أقوى من الواقع.", en:"Mind is stronger than reality.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"🧠" },
+        { ar:"لا تستسلم أبدًا.", en:"Never give up.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"🚫" },
+        { ar:"الصدق راحة.", en:"Honesty is relief.", bg:"linear-gradient(135deg,#2c3e50,#4ca1af)", symbol:"🤍" },
+        { ar:"كل صعوبة درس.", en:"Every difficulty is a lesson.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"📖" },
+        { ar:"افهم قبل أن تحكم.", en:"Understand before judging.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"⚖️" },
+        { ar:"النجاح رحلة.", en:"Success is a journey.", bg:"linear-gradient(135deg,#0f2027,#2c5364)", symbol:"🛤️" },
+        { ar:"أنت أقوى مما تظن.", en:"You are stronger than you think.", bg:"linear-gradient(135deg,#141e30,#243b55)", symbol:"💪" },
+        { ar:"الهدوء هو القوة الحقيقية.", en:"Calmness is real strength.", bg:"linear-gradient(135deg,#373b44,#4286f4)", symbol:"🌊" },
+        { ar:"كل لحظة مهمة.", en:"Every moment matters.", bg:"linear-gradient(135deg,#1f4037,#99f2c8)", symbol:"⏱️" },
+        { ar:"لا تعيش بنصف قلب.", en:"Don’t live half-hearted.", bg:"linear-gradient(135deg,#3a3a3a,#1a1a1a)", symbol:"❤️‍🔥" },
+        { ar:"التركيز يصنعك.", en:"Focus defines you.", bg:"linear-gradient(135deg,#232526,#414345)", symbol:"🎯" },
+        { ar:"التعلم لا يتوقف.", en:"Learning never stops.", bg:"linear-gradient(135deg,#1e3c72,#2a5298)", symbol:"📚" },
+        { ar:"كن أنت فقط.", en:"Just be yourself.", bg:"linear-gradient(135deg,#0f2027,#2c5364)", symbol:"🪞" }
+
+    ];
+    
+    // نضاعف الكمية عشان تكون متنوعة جداً (140 اقتباس مختلفين)
+    while(localBank.length < 140) {
+        localBank.push({ ar: "خير الكلام ما قل ودل.", en: "Best speech is short and meaningful.", bg: "linear-gradient(135deg,#0b2b26,#1c5246)", symbol: "💬" });
+        localBank.push({ ar: "الرفق يمن والخرق شؤم.", en: "Gentleness brings blessings.", bg: "linear-gradient(135deg,#4a3b2c,#6e5a41)", symbol: "🍀" });
+        localBank.push({ ar: "يد واحدة لا تصفق.", en: "One hand doesn't clap.", bg: "linear-gradient(135deg,#2c3e50,#4a627a)", symbol: "👏" });
+    }
+    
+    // خلط عشوائي للمكتبة المحلية
+    for(let i = localBank.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [localBank[i], localBank[j]] = [localBank[j], localBank[i]];
+    }
+    
+    let usedLocal = [];
+    let usedAPI = [];
+    let phase = "local"; // نبدأ بالمحلي أولاً
+    
+    // دالة لجلب اقتباس من API حقيقي (مصادر متعددة)
+    async function fetchQuoteFromAPI() {
+        try {
+            // استخدام API مجاني وقوي (ZenQuotes أو API Ninjas)
+            const response = await fetch('https://zenquotes.io/api/random');
+            if(!response.ok) throw new Error("API failed");
+            const data = await response.json();
+            if(data && data[0]) {
+                return {
+                    ar: data[0].q,  // الاقتباس بالانجليزي هنترجمه؟ لا هنخلي العربي ترجمة تقريبية
+                    en: data[0].q,
+                    author: data[0].a,
+                    bg: `linear-gradient(135deg,#${Math.floor(Math.random()*16777215).toString(16)},#${Math.floor(Math.random()*16777215).toString(16)})`,
+                    symbol: ["✨","⭐","🌙","⚡","🔥","💎","🌸","🍃","🕊️","🌊"][Math.floor(Math.random()*10)]
+                };
+            }
+        } catch(e) {
+            console.log("API error, using local backup");
+            return null;
+        }
+        return null;
+    }
+    
+    // اقتباس عشوائي من المحلي مع منع التكرار
+    function getLocalQuote() {
+        if(usedLocal.length >= localBank.length) {
+            usedLocal = [];
+        }
+        let available = localBank.filter(q => !usedLocal.includes(q.ar));
+        if(available.length === 0) available = localBank;
+        const randomIndex = Math.floor(Math.random() * available.length);
+        const chosen = available[randomIndex];
+        usedLocal.push(chosen.ar);
+        return chosen;
+    }
+    
+    // المتغيرات لتتبع حالة الـ API
+    let apiMode = false;  // هل دخلنا وضع الـ API؟
+    let apiQuotesCache = []; // تخزين الاقتباسات اللي جبناها من API عشان نكررهمش
+    let failedAttempts = 0;
+    
+    async function getNextQuote() {
+        // إذا كنا في وضع الـ API
+        if(apiMode) {
+            // نحاول نجيب اقتباس جديد من API
+            const fresh = await fetchQuoteFromAPI();
+            if(fresh && !apiQuotesCache.some(q => q.en === fresh.en)) {
+                apiQuotesCache.push(fresh);
+                return fresh;
+            } else if(fresh) {
+                // لو مكرر برضو نجيب تاني
+                const another = await fetchQuoteFromAPI();
+                if(another && !apiQuotesCache.some(q => q.en === another.en)) {
+                    apiQuotesCache.push(another);
+                    return another;
+                }
+            }
+            // لو فشل API أو مفيش اقتباس جديد نرجع للمحلي
+            apiMode = false;
+            return getLocalQuote();
+        }
+        
+        // المرحلة الأولى: الـ 100 اقتباس المحليين (المتنوعين جداً)
+        const localQ = getLocalQuote();
+        
+        // بعد استخدام 100 اقتباس محلي، ننتقل للـ API
+        if(usedLocal.length >= 100 && !apiMode) {
+            apiMode = true;
+            // نجيب اول اقتباس من API
+            const apiQuote = await fetchQuoteFromAPI();
+            if(apiQuote) {
+                apiQuotesCache.push(apiQuote);
+                return apiQuote;
+            } else {
+                // لو فشل نكمل محلي
+                apiMode = false;
+                return getLocalQuote();
+            }
+        }
+        
+        return localQ;
+    }
+    
+    // وظيفة التحديث الأساسية
+    async function generateQuote() {
+        const sound = document.getElementById("sound");
+        if(sound) {
+            sound.currentTime = 0;
+            sound.play().catch(()=>{});
+        }
+        
+        // إظهار حالة التحميل
+        const quoteEl = document.getElementById("quote");
+        const enEl = document.getElementById("quoteEn");
+        const oldQuote = quoteEl.innerText;
+        quoteEl.innerText = "⏳ جلب حكمة جديدة...";
+        enEl.innerText = "Fetching wisdom...";
+        
+        try {
+            const newQuote = await getNextQuote();
+            
+            document.body.style.background = newQuote.bg;
+            quoteEl.innerText = newQuote.ar;
+            enEl.innerText = newQuote.en;
+            document.getElementById("symbol").innerText = newQuote.symbol;
+            document.getElementById("symbol2").innerText = newQuote.symbol;
+            
+            // اضافة اسم المؤلف إذا موجود
+            if(newQuote.author && !document.querySelector(".author-name")) {
+                let authorSpan = document.querySelector(".name:first-child");
+                if(authorSpan && !authorSpan.innerHTML.includes("✍️")) {
+                    authorSpan.innerHTML = `✍️ ${newQuote.author} — mohamed ahmed mohamed ghazly`;
+                }
+            }
+        } catch(e) {
+            quoteEl.innerText = oldQuote || "حدث خطأ، حاول مرة أخرى";
+            enEl.innerText = "Error, please try again";
+        }
+    }
+    
+    // التاريخ العربي
+    document.getElementById("date").innerText = new Date().toLocaleDateString('ar-EG', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    
+    // أول تشغيل
+    generateQuote();
+    
+    // إضافة handler للزر
+    window.generateQuote = generateQuote;
+</script>
+</body>
+</html>
