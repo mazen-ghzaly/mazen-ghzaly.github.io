@@ -64,6 +64,43 @@
     <link rel="stylesheet" href="css/index.css" />
 
 
+
+    <style>
+        .coming-soon-card .project-image {
+            background: radial-gradient(circle at 50% 35%, rgba(0,191,255,.22), transparent 55%), linear-gradient(135deg, #101b3a, #241044 65%, #10152c);
+        }
+        .coming-soon-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 6px 12px; margin-bottom: 12px;
+            border: 1px solid rgba(0,191,255,.4); border-radius: 999px;
+            color: #7ee7ff; background: rgba(0,191,255,.09);
+            font-size: .82rem; font-weight: 700;
+        }
+        .coming-soon-badge::before {
+            content: ""; width: 7px; height: 7px; border-radius: 50%;
+            background: #00bfff; box-shadow: 0 0 10px #00bfff;
+        }
+        .countdown-label { margin: 14px 0 8px; color: #aaa; font-size: .9rem; }
+        .project-countdown {
+            display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px; direction: ltr; text-align: center;
+        }
+        .countdown-unit {
+            padding: 9px 4px; border: 1px solid rgba(0,191,255,.2);
+            border-radius: 10px; background: rgba(0,191,255,.06);
+        }
+        .countdown-number {
+            display: block; color: #7ee7ff; font-size: 1.35rem;
+            line-height: 1.35; font-weight: 800; font-variant-numeric: tabular-nums;
+        }
+        .countdown-unit small { color: #aaa; font-size: .7rem; }
+        .coming-soon-note { margin-top: 12px; color: #999; font-size: .82rem; }
+        @media (max-width: 360px) {
+            .project-countdown { gap: 5px; }
+            .countdown-number { font-size: 1.1rem; }
+        }
+    </style>
+
 </head>
 <body>
     <!-- Header -->
@@ -132,6 +169,26 @@
                         <a href="https://mazen-ghzaly.github.io/quotes/" target="_blank" rel="noopener noreferrer" class="project-link">زيارة الموقع</a> 
                     </div>
                 </div>
+
+                <!-- Project 4: Kashkooool -->
+                <div class="project-card coming-soon-card">
+                    <div class="project-image">
+                        <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                    </div>
+                    <div class="project-content">
+                        <span class="coming-soon-badge" id="kashkooool-status">Coming Soon</span>
+                        <h3 class="project-title">Kashkooool</h3>
+                        <p class="project-description">منصة تعليمية لتنظيم المدرسين والطلاب والمجموعات والدروس والمدفوعات، وإدارة العملية التعليمية من مكان واحد.</p>
+                        <p class="countdown-label" id="kashkooool-countdown-label">الإطلاق غدًا في منتصف الليل — بتوقيت مصر</p>
+                        <div class="project-countdown" id="kashkooool-countdown" role="timer" aria-live="off" aria-label="الوقت المتبقي حتى إطلاق Kashkooool">
+                            <div class="countdown-unit"><span class="countdown-number" id="kash-days">00</span><small>Days</small></div>
+                            <div class="countdown-unit"><span class="countdown-number" id="kash-hours">00</span><small>Hours</small></div>
+                            <div class="countdown-unit"><span class="countdown-number" id="kash-minutes">00</span><small>Minutes</small></div>
+                            <div class="countdown-unit"><span class="countdown-number" id="kash-seconds">00</span><small>Seconds</small></div>
+                        </div>
+                        <p class="coming-soon-note" id="kashkooool-note">موعد الإطلاق: 4 نوفمبر 2026، الساعة 12:00 صباحًا.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -168,6 +225,43 @@
     </footer>
 
     
+
+    <script>
+        (() => {
+            const launchAt = new Date("2026-11-04T00:00:00+02:00").getTime();
+            const fields = {
+                days: document.getElementById("kash-days"),
+                hours: document.getElementById("kash-hours"),
+                minutes: document.getElementById("kash-minutes"),
+                seconds: document.getElementById("kash-seconds")
+            };
+            const status = document.getElementById("kashkooool-status");
+            const label = document.getElementById("kashkooool-countdown-label");
+            const note = document.getElementById("kashkooool-note");
+            const countdown = document.getElementById("kashkooool-countdown");
+            if (!fields.days || !status || !countdown) return;
+
+            const pad = value => String(value).padStart(2, "0");
+            const updateCountdown = () => {
+                const remaining = launchAt - Date.now();
+                if (remaining <= 0) {
+                    Object.values(fields).forEach(field => { field.textContent = "00"; });
+                    status.textContent = "Launched";
+                    label.textContent = "تم الوصول إلى موعد الإطلاق";
+                    note.textContent = "Kashkooool أصبح في موعد إطلاقه.";
+                    countdown.hidden = true;
+                    return;
+                }
+                fields.days.textContent = pad(Math.floor(remaining / 86400000));
+                fields.hours.textContent = pad(Math.floor((remaining % 86400000) / 3600000));
+                fields.minutes.textContent = pad(Math.floor((remaining % 3600000) / 60000));
+                fields.seconds.textContent = pad(Math.floor((remaining % 60000) / 1000));
+            };
+            updateCountdown();
+            window.setInterval(updateCountdown, 1000);
+        })();
+    </script>
+
 </body>
 </html>
 
