@@ -176,17 +176,10 @@
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                     </div>
                     <div class="project-content">
-                        <span class="coming-soon-badge" id="kashkooool-status">Coming Soon</span>
+                        <span class="coming-soon-badge">نسخة تجريبية</span>
                         <h3 class="project-title">Kashkooool Fake</h3>
-                        <p class="project-description">نسخة تجريبية (Fake) من مشروع كشكول؛ لا تمثل الموقع الأصلي أو جميع وظائفه بنسبة 100%، وهي مخصصة للعرض والتجربة.</p>
-                        <p class="countdown-label" id="kashkooool-countdown-label">الإطلاق غدًا في منتصف الليل — بتوقيت مصر</p>
-                        <div class="project-countdown" id="kashkooool-countdown" role="timer" aria-live="off" aria-label="الوقت المتبقي حتى إطلاق Kashkooool Fake">
-                            <div class="countdown-unit"><span class="countdown-number" id="kash-days">00</span><small>Days</small></div>
-                            <div class="countdown-unit"><span class="countdown-number" id="kash-hours">00</span><small>Hours</small></div>
-                            <div class="countdown-unit"><span class="countdown-number" id="kash-minutes">00</span><small>Minutes</small></div>
-                            <div class="countdown-unit"><span class="countdown-number" id="kash-seconds">00</span><small>Seconds</small></div>
-                        </div>
-                        <p class="coming-soon-note" id="kashkooool-note">موعد الإطلاق 5 نوفمبر 2026، الساعة 12:00 صباحًا.</p>
+                        <p class="project-description">نسخة تجريبية مستقلة (Fake) من مشروع كشكول، أُعدّت للعرض والتجربة فقط. ليست النظام الأصلي ولا تمثل جميع وظائفه أو بياناته الفعلية.</p>
+                        <a href="https://mazen-ghzaly.github.io/" target="_blank" rel="noopener noreferrer" class="project-link">زيارة الموقع التجريبي</a>
                     </div>
                 </div>
             </div>
@@ -226,41 +219,7 @@
 
     
 
-    <script>
-        (() => {
-            const launchAt = new Date("2026-11-05T00:00:00+02:00").getTime();
-            const fields = {
-                days: document.getElementById("kash-days"),
-                hours: document.getElementById("kash-hours"),
-                minutes: document.getElementById("kash-minutes"),
-                seconds: document.getElementById("kash-seconds")
-            };
-            const status = document.getElementById("kashkooool-status");
-            const label = document.getElementById("kashkooool-countdown-label");
-            const note = document.getElementById("kashkooool-note");
-            const countdown = document.getElementById("kashkooool-countdown");
-            if (!fields.days || !status || !countdown) return;
 
-            const pad = value => String(value).padStart(2, "0");
-            const updateCountdown = () => {
-                const remaining = launchAt - Date.now();
-                if (remaining <= 0) {
-                    Object.values(fields).forEach(field => { field.textContent = "00"; });
-                    status.textContent = "Launched";
-                    label.textContent = "تم الوصول إلى موعد الإطلاق";
-                    note.textContent = "وصلت النسخة التجريبية Kashkooool Fake إلى موعد إطلاقها.";
-                    countdown.hidden = true;
-                    return;
-                }
-                fields.days.textContent = pad(Math.floor(remaining / 86400000));
-                fields.hours.textContent = pad(Math.floor((remaining % 86400000) / 3600000));
-                fields.minutes.textContent = pad(Math.floor((remaining % 3600000) / 60000));
-                fields.seconds.textContent = pad(Math.floor((remaining % 60000) / 1000));
-            };
-            updateCountdown();
-            window.setInterval(updateCountdown, 1000);
-        })();
-    </script>
 
 </body>
 </html>
