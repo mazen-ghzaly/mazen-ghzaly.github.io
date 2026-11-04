@@ -65,41 +65,7 @@
 
 
 
-    <style>
-        .coming-soon-card .project-image {
-            background: radial-gradient(circle at 50% 35%, rgba(0,191,255,.22), transparent 55%), linear-gradient(135deg, #101b3a, #241044 65%, #10152c);
-        }
-        .coming-soon-badge {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 6px 12px; margin-bottom: 12px;
-            border: 1px solid rgba(0,191,255,.4); border-radius: 999px;
-            color: #7ee7ff; background: rgba(0,191,255,.09);
-            font-size: .82rem; font-weight: 700;
-        }
-        .coming-soon-badge::before {
-            content: ""; width: 7px; height: 7px; border-radius: 50%;
-            background: #00bfff; box-shadow: 0 0 10px #00bfff;
-        }
-        .countdown-label { margin: 14px 0 8px; color: #aaa; font-size: .9rem; }
-        .project-countdown {
-            display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 8px; direction: ltr; text-align: center;
-        }
-        .countdown-unit {
-            padding: 9px 4px; border: 1px solid rgba(0,191,255,.2);
-            border-radius: 10px; background: rgba(0,191,255,.06);
-        }
-        .countdown-number {
-            display: block; color: #7ee7ff; font-size: 1.35rem;
-            line-height: 1.35; font-weight: 800; font-variant-numeric: tabular-nums;
-        }
-        .countdown-unit small { color: #aaa; font-size: .7rem; }
-        .coming-soon-note { margin-top: 12px; color: #999; font-size: .82rem; }
-        @media (max-width: 360px) {
-            .project-countdown { gap: 5px; }
-            .countdown-number { font-size: 1.1rem; }
-        }
-    </style>
+
 
 </head>
 <body>
@@ -170,16 +136,15 @@
                     </div>
                 </div>
 
-                <!-- Project 4: Kashkooool Fake -->
-                <div class="project-card coming-soon-card">
+                <!-- Project 4: Kashkooool (Demo) -->
+                <div class="project-card">
                     <div class="project-image">
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                     </div>
                     <div class="project-content">
-                        <span class="coming-soon-badge">نسخة تجريبية</span>
-                        <h3 class="project-title">Kashkooool Fake</h3>
-                        <p class="project-description">نسخة تجريبية مستقلة (Fake) من مشروع كشكول، أُعدّت للعرض والتجربة فقط. ليست النظام الأصلي ولا تمثل جميع وظائفه أو بياناته الفعلية.</p>
-                        <a href="https://mazen-ghzaly.github.io/" target="_blank" rel="noopener noreferrer" class="project-link">زيارة الموقع التجريبي</a>
+                        <h3 class="project-title">Kashkooool (Demo)</h3>
+                        <p class="project-description">نسخة تجريبية (Fake) لعرض فكرة منصة كشكول لإدارة الدروس والمدرسين والطلاب والمدفوعات. هذه نسخة للعرض والتجربة وليست نظامًا رسميًا أو بيانات تشغيل حقيقية.</p>
+                        <a href="https://app.kashkooool.workers.dev/" target="_blank" rel="noopener noreferrer" class="project-link">زيارة الموقع</a>
                     </div>
                 </div>
             </div>
